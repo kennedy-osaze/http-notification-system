@@ -1,24 +1,78 @@
-# Lumen PHP Framework
+# HTTP Notification System
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+A simple service that keeps track of different topics and allows clients subscribe to these topics, receiving notification messages based on the topics they subscribe to.
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+This is built using
 
-## Official Documentation
+## Requirements
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+- PHP 7.4+
+- MySQL 5.7+
+- Composer
 
-## Contributing
+## Installation
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Clone the repository by running
 
-## Security Vulnerabilities
+```bash
+git clone https://github.com/kennedy-osaze/http-notification-system.git
+```
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Install Dependencies
+```bash
+composer install
+```
 
-## License
+Run service
+```bash
+php -S localhost:8000 -t public
+```
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## API Reference
+
+#### Subscribe to a Topic
+
+```http
+POST /subscribe/{topic}
+{
+    "url": "http://localhost:9000"
+}
+```
+
+| Payload | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `url` | `string` | **Required**. The url to recieve notifications to |
+
+#### Publish to Message to Topic Subscribers
+
+```http
+POST /publish/{topic}
+{
+    "data": {
+        "message": "Hello World!"
+    }
+}
+```
+
+| Payload | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `data`      | `json` | **Required**. Must be a key-value paired |
+
+
+To enable workers to send notifications, run
+```bash
+php artisan queue:work
+```
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+./vendor/bin/phpunit
+```
+
+## Technologies Used
+
+- [PHP](php.net)
+- [Lumen](https://lumen.laravel.com/)
+- [MySQL](https://www.mysql.com/)

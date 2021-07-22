@@ -14,5 +14,13 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return response()->json(['message' => 'HTTP Notification System']);
 });
+
+$router->post('/subscribe/{topic}', [
+    'as' => 'subscribe', 'uses' => 'SubscriptionController@store'
+]);
+
+$router->post('/publish/{topic}', [
+    'as' => 'publish', 'uses' => 'PublishController@store'
+]);
